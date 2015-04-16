@@ -1,5 +1,6 @@
 package test.ua.goit.alg.xmlparser;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.goit.alg.xmlparser.input.StreamReader;
@@ -13,9 +14,11 @@ public class StreamReaderTest {
 
   @Before
   public void createTempResource() throws IOException {
-    String path = System.getProperty("user.dir") + "\\resource\\textXMLFile.xml";
-    testXMLFile = new File(path);
-    testXMLFile.createNewFile();
+    String fileSep = System.getProperty("file.separator");
+    String dirPath = System.getProperty("user.dir") + fileSep + "resource";
+    testXMLFile = File.createTempFile("temp", ".txt", new File(dirPath));
+    testXMLFile.deleteOnExit();
+
     String xmlString = "<?xml version=\"1.0\"?><start atr1=\"3\" atr2 = \"4\"><tag>text</tag><tag2/></start>";
 
     PrintWriter out = null;
@@ -29,6 +32,11 @@ public class StreamReaderTest {
         out.close();
       }
     }
+  }
+
+  @After
+  public void deleteTestFile() {
+//    testXMLFile.delete();
   }
 
   @Test
